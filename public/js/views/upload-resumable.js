@@ -1,5 +1,4 @@
 window.UploadView = Backbone.View.extend({
-    el: $("#content"),
     initialize: function () {
         this.render();
 
@@ -21,53 +20,53 @@ window.UploadView = Backbone.View.extend({
           });
         // Resumable.js isn't supported, fall back on a different method
         if(!r.support) {
-            $('.alert').show();
+            $('.alert', this.$el).show();
             return;
         }
-        $('.alert').hide();
+        $('.alert', this.$el).hide();
         // Show a place for dropping/selecting files
-        $('.droparea').show();
-        r.assignDrop($('.droparea')[0]);
-        r.assignBrowse($('.browse')[0]);
+        $('.droparea', this.$el).show();
+        r.assignDrop($('.droparea', this.$el)[0]);
+        r.assignBrowse($('.browse', this.$el)[0]);
 
         // Handle file add event
         r.on('fileAdded', function(file){
             console.log ('added');
               // Show progress pabr
-              $('.progress, .pending').show();
+              $('.progress, .pending', this.$el).show();
               // Show pause, hide resume
-              $('.progress .resume').hide();
-              $('.progress .pause').show();
+              $('.progress .resume', this.$el).hide();
+              $('.progress .pause', this.$el).show();
               // Add the file to the list
-              $('.pending').append('<li class="file-'+file.uniqueIdentifier+'">Uploading <span class="file-name"></span> <div class="progress progress-striped active"><div class="bar"></div></div></li>');
-              $('.file-'+file.uniqueIdentifier+' .file-name').html(file.fileName);
+              $('.pending', this.$el).append('<li class="file-'+file.uniqueIdentifier+'">Uploading <span class="file-name"></span> <div class="progress progress-striped active"><div class="bar"></div></div></li>');
+              $('.file-'+file.uniqueIdentifier+' .file-name', this.$el).html(file.fileName);
               // Actually start the upload
               setTimeout(function () {r.upload();}, 100);
             });
           r.on('pause', function(){
               // Show resume, hide pause
-              $('.progress .resume').show();
-              $('.progress .pause').hide();
+              $('.progress .resume', this.$el).show();
+              $('.progress .pause', this.$el).hide();
             });
           r.on('complete', function(){
               // Hide pause/resume when the upload has completed
-              $('.progress .progress-resume-link, .progress .progress-pause-link').hide();
+              $('.progress .progress-resume-link, .progress .progress-pause-link', this.$el).hide();
             });
           r.on('fileSuccess', function(file,message){
               // Reflect that the file upload has completed
-              var barEl =  $('.file-'+file.uniqueIdentifier+' .bar')[0];
-              var fileEl = $('.file-'+file.uniqueIdentifier+' .progress');
+              var barEl =  $('.file-'+file.uniqueIdentifier+' .bar', this.$el)[0];
+              var fileEl = $('.file-'+file.uniqueIdentifier+' .progress', this.$el);
               fileEl.removeClass('progress-striped active');
               barEl.textContent = '(completed)';
             });
           r.on('fileError', function(file, message){
               // Reflect that the file upload has resulted in error
-              $('.file-'+file.uniqueIdentifier+' .file-progress').html('(file could not be uploaded: '+message+')');
+              $('.file-'+file.uniqueIdentifier+' .file-progress', this.$el).html('(file could not be uploaded: '+message+')');
             });
         r.on('fileProgress', function(file){
             // Handle progress for both the file and the overall upload
-            var barEl  =  $('.file-'+file.uniqueIdentifier+' .bar')[0];
-            var fileEl =  $('.file-'+file.uniqueIdentifier+' .progress');
+            var barEl  =  $('.file-'+file.uniqueIdentifier+' .bar', this.$el)[0];
+            var fileEl =  $('.file-'+file.uniqueIdentifier+' .progress', this.$el);
             var progr  =  Math.floor(file.progress()*100) + '%';
 
             if (!barEl)
@@ -75,7 +74,7 @@ window.UploadView = Backbone.View.extend({
 
             barEl.style.width = progr;
             barEl.textContent = progr;
-            $('#main-progress').css({width:Math.floor(r.progress()*100) + '%'});
+            $('#main-progress', this.$el).css({width:Math.floor(r.progress()*100) + '%'});
         });
         this.r = r;
     },
@@ -123,12 +122,12 @@ window.UploadView = Backbone.View.extend({
 
         // Read the image file from the local file system and display it in the img tag
 
-        var progress = $('.bar')[0];
+        var progress = $('.bar', this.$el)[0];
         var chunk_size = 4*1024*1024;
         var read_size = 0;
         var spark = new SparkMD5();
 
-        $('.progress').addClass('progress-striped active');
+        $('.progress', this.$el).addClass('progress-striped active');
 
         function read_chunk () {
             var reader = new FileReader();
@@ -151,7 +150,7 @@ window.UploadView = Backbone.View.extend({
                 if (read_size < f.size) {
                     read_chunk();
                 } else {
-                    $('.progress').removeClass('progress-striped active');
+                    $('.progress', this.$el).removeClass('progress-striped active');
                     progress.style.width = '100%';
                     progress.textContent = '100%' + spark.end();
                 }

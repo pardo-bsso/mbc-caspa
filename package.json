@@ -35,6 +35,7 @@
         "moment": "1.7.x",
         "knockback" : "0.17.x",
         "knockout-client" : "2.2.x",
+	"knockback-navigators": "0.1.x",
         "i18n-abide"    : "0.0.8beta4",
         "backbone.io"   : "git://github.com/inaes-tic/backbone.io",
         "resumable.js"  : "git://github.com/inaes-tic/resumable.js",

@@ -1,0 +1,18 @@
+#index
+  .home-hero
+    h1= i18n.gettext('Welcome to ') + name
+    br
+    div(style="opacity: .9;")
+      a.btn.btn-large(href="#media")
+        img.pull-left(src="img/media.png", style="margin-right:6px;").
+        p= i18n.gettext('Start Browsing\nMedia Cellar')
+      a.btn.btn-large(href="#")
+        img.pull-left(src="img/github.png", style="margin-right:6px").
+        p= i18n.gettext('View Project\non Github')
+  .bs-docs-social
+      .container
+        ul.bs-docs-social-buttons
+          li.follow-btn
+            a.twitter-follow-button(href="https://twitter.com/mbcplayout",data-link-color="#0069D6",data-show-count="true")= i18n.gettext('Follow') + ' @mbcplayout'
+          li.tweet-btn
+            a.twitter-share-button(href="https://twitter.com/share",data-url="http://localhost:3000",data-count="horizontal",data-via="mbcplayout")= i18n.gettext('Tweet')

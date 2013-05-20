@@ -3,12 +3,8 @@ window.MediaListView = function(options){
 
     var model = options['model'];
     var collection = model.get('collection');
-    var el = $('#content');
-    if(options['el'])
-        el = options['el'];
 
     this.model = model;
-    this.el = el;
     this.has_dummy_row = false;
 
     var allow_drop = false;
@@ -17,8 +13,15 @@ window.MediaListView = function(options){
     if (type.match(/sortable/)){
         allow_drop = true;
     }
+    
+    var html = template.medialist({type: type});
+    if(options['el']) {
+        this.el = options['el'];
+        this.el.html(html);
+    } else {
+        this.el = $(html);
+    }
 
-    el.html(template.medialist({type: type}));
     console.log('ML2');
 
     var MediaListViewModel = kb.ViewModel.extend({
@@ -72,7 +75,7 @@ window.MediaListView = function(options){
         },
     });
 
-    new SearchView({el: $('#media-search',el), type: 'media' });
+    new SearchView({el: $('#media-search', this.el), type: 'media' });
     this.view_model = new MediaListViewModel(model);
 
     this.editListName = function () {
@@ -112,7 +115,7 @@ window.MediaListView = function(options){
     _.bindAll(this, 'onCollectionChange', 'addDummyRow', 'destroy', 'save', 'editListName');
     this.view_model.collection.subscribe(this.onCollectionChange);
 
-    ko.applyBindings(this.view_model, el[0]);
+    ko.applyBindings(this.view_model, this.el[0]);
 
     if (0 == collection.length){
         this.addDummyRow();

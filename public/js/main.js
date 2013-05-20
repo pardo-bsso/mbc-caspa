@@ -39,10 +39,13 @@ window.appCollection = appCollection;
 window.appstatus = new App.Status();
 window.framestatus = new App.ProgressStatus();
 
+var page_navigator = new kb.PageNavigatorPanes(document.getElementById('content'));
+
 var AppRouter = Backbone.Router.extend({
 
     routes: {
-        "media"	: "list",
+        ""                  : "index",
+        "media"             : "list",
         "universe"          : "universe",
         "media/add"         : "upload",
         "media/edit"        : "editMedia",
@@ -60,7 +63,7 @@ var AppRouter = Backbone.Router.extend({
             console.log ('got medias:moved from server', move);
         });
 
-        _([appCollection, mediaList, Universe, Schedule]).each( function (col) {
+        _([mediaList, Universe, Schedule]).each( function (col) {
             console.log ('fetching', col);
             col.fetch();
         });
@@ -68,14 +71,31 @@ var AppRouter = Backbone.Router.extend({
         this.headerView = new HeaderView({appstatus: window.appstatus, framestatus: window.framestatus});
     },
 
+    load: function(el, callback) {
+        var pane = page_navigator.loadPage({
+            el: el,
+            transition: 'NavigationSlide'
+        });
+    },
+
+    index: function() {
+        var self = this;
+        appCollection.fetch({success: function() {
+            var conf = appCollection.models[0].get('Caspa');
+            self.load($(template.index({name: conf.Branding.name, description: conf.Branding.description }))[0]);
+        }})
+    },
+
     schedule: function() {
-        new ScheduleView({collection: Schedule});
+        var view = new ScheduleView({collection: Schedule});
         this.headerView.selectMenuItem('schedule-menu');
+        this.load(view.el);
     },
 
     list: function() {
-        new MediaListView({model: mediaDB});
+        var view = new MediaListView({model: mediaDB});
         this.headerView.selectMenuItem('list-menu');
+        this.load(view.el[0]);
     },
 
     universe: function () {
@@ -83,12 +103,14 @@ var AppRouter = Backbone.Router.extend({
     },
 
     mediaDetails: function (id) {
-        new MediaView({model: mediaList.get(id)});
+        var view = new MediaView({model: mediaList.get(id)});
         this.headerView.selectMenuItem('list-menu');
+        this.load(view.el[0]);
     },
 
     upload: function () {
-        new UploadView ({collection: appCollection});
+        var view = new UploadView ({collection: appCollection});
+        this.load(view.el);
         this.headerView.selectMenuItem('add-menu');
     },
 
@@ -99,8 +121,9 @@ var AppRouter = Backbone.Router.extend({
     },
 
     editMedia: function() {
-        new EditView ({el: $("#content"), collection: Universe});
+        var view = new EditView ({collection: Universe});
         this.headerView.selectMenuItem('edit-menu');
+        this.load(view.el);
     },
 
     about: function () {
@@ -111,7 +134,8 @@ var AppRouter = Backbone.Router.extend({
         this.headerView.selectMenuItem('about-menu');
     },
     conf: function () {
-        new ConfView({collection: appCollection});
+        var view = new ConfView({collection: appCollection});
+        this.load(view.el);
         this.headerView.selectMenuItem('conf-menu');
     },
 });

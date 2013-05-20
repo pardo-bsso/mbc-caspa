@@ -1,5 +1,4 @@
 window.EditView = Backbone.View.extend({
-    el: '#content',
     events: {
         "click #create-playlist" : "createPlaylist",
         "click #universe li"     : "switchPlaylistEvent",
@@ -15,10 +14,10 @@ window.EditView = Backbone.View.extend({
         $(this.el).html(template.mediaedit());
         new UniverseListView({
             collection: this.collection,
-            el: $("#universe")});
+            el: $("#universe", this.el)});
         new MediaListView({
             model: mediaDB,
-            el: $("#left-pane"),
+            el: $("#left-pane", this.el),
             type: 'playlist-draggable-fixed',
         });
         if (this.editList)

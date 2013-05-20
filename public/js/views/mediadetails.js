@@ -1,8 +1,7 @@
 window.MediaView = function (options) {
     var model = options['model'];
-    var el = $('#content');
 
-    el.html(template.mediaview(model.toJSON()));
+    this.el = $(template.mediaview(model.toJSON()));
     console.log('MediaView 2');
 
     view_model = kb.viewModel(model);
@@ -15,7 +14,7 @@ window.MediaView = function (options) {
         }
     };
 
-    ko.applyBindings(view_model, el[0]);
+    ko.applyBindings(view_model, this.el[0]);
 
 }
 

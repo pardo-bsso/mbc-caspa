@@ -19,7 +19,6 @@ window.OccurrenceView = Backbone.View.extend({
 });
 
 window.ScheduleView = Backbone.View.extend({
-    el: $("#content"),
     get_templateHTML: function () {
         return template.schedule();
     },

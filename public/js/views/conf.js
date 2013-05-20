@@ -1,13 +1,12 @@
 window.ConfView = Backbone.View.extend({
-    el: $("#content"),
     initialize: function () {
         this.render();
         this.configModel = this.filter('type', 'config');
         this.defaultModel = this.filter('type','defaults');
     },
     render: function () {
-            $(this.el).html(template.confview({ config: this.collection.toJSON() }));
-            $('.bs-docs-sidenav').affix();
+            this.$el.html(template.confview({ config: this.collection.toJSON() }));
+            $('.bs-docs-sidenav', this.el).affix();
             $('body').scrollspy('refresh');
             return this;
     },

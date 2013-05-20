@@ -20,7 +20,7 @@ module.exports = function(app) {
      * GET home page.
      */
     app.get('/',  function(req, res) {
-        res.render('index', { name: conf.Branding.name, description: conf.Branding.description });
+        res.render('layout', { name: conf.Branding.name, description: conf.Branding.description });
     });
 
     app.get('/app/:id', function (req, res) {
@@ -69,6 +69,8 @@ module.exports = function(app) {
         path.join(lib_dir, 'airtime/common.js'),
         require.resolve('knockout-client/knockout.js'),
         require.resolve('knockback/knockback-core.js'),
+        require.resolve('knockback-navigators/knockback-page-navigator-panes.js'),
+        require.resolve('knockback-navigators/lib/knockback-sample-transitions-jquery.js'),
         path.join(lib_dir, 'knockout-sortable/build/knockout-sortable.js'),
         path.join(lib_dir, 'knockout-drag-binding.js'),
         path.join(lib_dir, 'knockout-common-binding.js'),
@@ -131,7 +133,8 @@ module.exports = function(app) {
      * jade on the client-side.
      */
 
-    var templates = ['form',
+    var templates = ['index',
+                    'form',
                      'item',
                      'playbar',
                      'header',

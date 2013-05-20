@@ -74,10 +74,10 @@ window.HeaderView = function (options) {
         var content = $('#content');
         if (panel.position().top != $(window).scrollTop()) {
             panel.animate({top: 0});
-            content.animate({'padding-top': '+=105'});
+            content.animate({top: '+=105'});
         } else {
             panel.animate({top: -105})
-            content.animate({'padding-top': '-=105'});
+            content.animate({top: '-=105'});
         };
     };
     $('#toggle-header').click(toggle);

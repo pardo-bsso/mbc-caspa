@@ -1,32 +1,34 @@
 !!!
 html(lang='#{lang}', dir='#{lang_dir}')
   head
-    title= name
-    meta(name="viewport", content="width=device-width, initial-scale=1.0")
-    meta(charset="utf-8")
-    script(src='/lib/head.min.js')
-    link(rel='stylesheet', href='/css/main.css')
+    block head
+        title= name
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        meta(charset="utf-8")
+        script(src='/lib/head.min.js')
+        link(rel='stylesheet', href='/css/main.css')
   body
-    script(type='text/javascript')
-      head.js(
-        "js/utils.js",
-        "js/vendor.js",
-        "js/templates.js",
-        "socket.io/socket.io.js",
-        "socket.io/backbone.io.js",
-        "js/models.js",
-        "js/views.js",
-        "js/main.js"
-      );
-    #Panel
+    block body
+        script(type='text/javascript')
+          head.js(
+            "js/utils.js",
+            "js/vendor.js",
+            "js/templates.js",
+            "socket.io/socket.io.js",
+            "socket.io/backbone.io.js",
+            "js/models.js",
+            "js/views.js",
+            "js/main.js"
+          );
+        #Panel
 
-    #content.container-fluid
-      block content
-    .delete-drop.connected-sortable(style='display:none;')
-      .message.no-sort
-        h1 DROP ME
+        #content.container-fluid
+          block content
+        .delete-drop.connected-sortable(style='display:none;')
+          .message.no-sort
+            h1 DROP ME
 
 
-    footer.footer
-      .container(id="bottom")
-        include footer
+        footer.footer
+          .container(id="bottom")
+            include footer

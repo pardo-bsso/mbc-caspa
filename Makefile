@@ -1,5 +1,6 @@
 export MOCHA=node_modules/mocha/bin/mocha
 export NODE_CONFIG_DIR ?= $(PWD)/node_modules/mbc-common/config
+export PATH += $(PWD)/node_modules/.bin
 
 all: update serve
 
@@ -32,6 +33,9 @@ update: submodules npm mos
 
 test:
 	${MOCHA} --reporter spec --timeout 3000 test
+
+test_browser:
+	mocha-phantomjs http://127.0.0.1:3000/test
 
 test_debug:
 	${MOCHA} --debug-brk --reporter spec test

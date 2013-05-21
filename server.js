@@ -71,6 +71,7 @@ app.configure('production', function(){
 
 var appModel = require('./routes')(app);
 var media = require('./routes/media')(app);
+var testsuite = require('./routes/testsuite')(app);
 
 function debug_backend (backend) {
         console.log ('Debugging backend: ', backend);

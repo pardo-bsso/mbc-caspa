@@ -1,0 +1,45 @@
+extends layout
+
+block append head 
+    link(rel='stylesheet', href='/test/css/mocha2.css')
+
+block prepend body
+    script(src='/test/libs/mocha.js')
+    script(src='/test/libs/chai2.js')
+    script(src='/test/libs/sinon-chai.js')
+    script(src='/test/libs/sinon-1.7.1.js')
+    script(type='text/javascript')
+        var expect = chai.expect,
+        should = chai.should();
+
+        mocha.setup({ui: 'bdd', ignoreLeaks: true });
+
+
+block append body
+    #mocha
+    script(type='text/javascript')
+        head.js("/test/specs.js");
+        function run_mocha() {
+            if (window.mochaPhantomJS) { mochaPhantomJS.run(); }
+            else { mocha.run(); } 
+        };
+        head.ready(setTimeout(run_mocha, 2000));
+
+block content
+  .home-hero
+    h1= gettext('Welcome to ') + name
+    br
+    div(style="opacity: .9;")
+      a.btn.btn-large(href="#media")
+        img.pull-left(src="img/media.png", style="margin-right:6px;").
+        p= gettext('Start Browsing\nMedia Cellar')
+      a.btn.btn-large(href="#")
+        img.pull-left(src="img/github.png", style="margin-right:6px").
+        p= gettext('View Project\non Github')
+  .bs-docs-social
+      .container
+        ul.bs-docs-social-buttons
+          li.follow-btn
+            a.twitter-follow-button(href="https://twitter.com/mbcplayout",data-link-color="#0069D6",data-show-count="true")= gettext('Follow') + ' @mbcplayout'
+          li.tweet-btn
+            a.twitter-share-button(href="https://twitter.com/share",data-url="http://localhost:3000",data-count="horizontal",data-via="mbcplayout")= gettext('Tweet')
